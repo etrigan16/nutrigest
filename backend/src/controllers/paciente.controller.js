@@ -43,7 +43,90 @@ const obtenerPacientes = async (req, res) => {
 };
 
 
+/**
+ * Obtener un paciente específico del nutricionista autenticado
+ */
+const obtenerPacientePorId = async (req, res) => {
+  try {
+    const paciente = await Paciente.findOne({
+      _id: req.params.id,
+      id_nutricionista: req.usuario.id
+    });
+
+    if (!paciente) {
+      return res.status(404).json({ error: 'Paciente no encontrado' });
+    }
+
+    res.status(200).json(paciente);
+  } catch (error) {
+    console.error('Error obteniendo paciente:', error.message);
+    res.status(500).json({
+      error: 'Error al obtener paciente'
+    });
+  }
+};
+
+/**
+ * Actualizar un paciente específico
+ */
+const actualizarPaciente = async (req, res) => {
+  try {
+    const paciente = await Paciente.findOne({
+      _id: req.params.id,
+      id_nutricionista: req.usuario.id
+    });
+
+    if (!paciente) {
+      return res.status(404).json({ error: 'Paciente no encontrado' });
+    }
+
+    // Actualizamos solo los campos enviados
+    Object.assign(paciente, req.body);
+
+    await paciente.save();
+
+    res.status(200).json({
+      mensaje: 'Paciente actualizado exitosamente',
+      paciente
+    });
+  } catch (error) {
+    console.error('Error actualizando paciente:', error.message);
+    res.status(500).json({
+      error: 'Error al actualizar paciente'
+    });
+  }
+};
+
+/**
+ * Eliminar un paciente específico
+ */
+const eliminarPaciente = async (req, res) => {
+  try {
+    const paciente = await Paciente.findOneAndDelete({
+      _id: req.params.id,
+      id_nutricionista: req.usuario.id
+    });
+
+    if (!paciente) {
+      return res.status(404).json({ error: 'Paciente no encontrado' });
+    }
+
+    res.status(200).json({ mensaje: 'Paciente eliminado exitosamente' });
+  } catch (error) {
+    console.error('Error eliminando paciente:', error.message);
+    res.status(500).json({
+      error: 'Error al eliminar paciente'
+    });
+  }
+};
+
 module.exports = {
   crearPaciente,
-  obtenerPacientes
+  obtenerPacientes,
+  obtenerPacientePorId,
+  actualizarPaciente,
+  eliminarPaciente
 };
+
+
+
