@@ -5,6 +5,8 @@ require('dotenv').config();
 // Importamos las rutas
 const pacientesRoutes = require('./routes/pacientes.routes');
 const usuariosRoutes = require('./routes/usuarios.routes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./docs/swagger');
 
 
 const app = express();
@@ -16,6 +18,9 @@ app.use(express.json());
 // Rutas
 app.use('/api/pacientes', pacientesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
+
+// Montamos Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Ruta base de prueba
 app.get('/', (req, res) => {
