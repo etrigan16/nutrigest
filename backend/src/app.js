@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const connectDB = require('./config/db');
+connectDB();
 
 // Importamos las rutas
 const pacientesRoutes = require('./routes/pacientes.routes');
@@ -12,7 +14,9 @@ const swaggerSpec = require('./docs/swagger');
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000' // Cambia el puerto si tu frontend usa otro
+}));
 app.use(express.json());
 
 // Rutas

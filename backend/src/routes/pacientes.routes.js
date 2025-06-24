@@ -3,27 +3,27 @@ const router = express.Router();
 const { crearPaciente, obtenerPacientes, obtenerPacientePorId, actualizarPaciente, eliminarPaciente } = require('../controllers/paciente.controller');
 const authMiddleware = require('../middleware/authMiddleware');
 
-/** 
+/**
  * @swagger
- * /api/pacientes: 
- *  post:
- *    summary: Crea un nuevo paciente
- *   security:
- *      - bearerAuth: []
- *   requestBody:
- *     required: true
- *    content:
- *     application/json:
- *      schema:
- *        type: object
- *       properties:
- *        nombre:
- *         type: string
- *        description: Nombre del paciente
- *        example: Juan Pérez
- *       email:
- *        type: string
- *       description: Correo electrónico del paciente
+ * /api/pacientes:
+ *   post:
+ *     summary: Crea un nuevo paciente
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 description: Nombre del paciente
+ *                 example: Juan Pérez
+ *               email:
+ *                 type: string
+ *                 description: Correo electrónico del paciente
  */
 // Ruta para crear un paciente (protegida)
 router.post('/', authMiddleware, crearPaciente);
